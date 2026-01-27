@@ -1,0 +1,75 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+header{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 15px  30px;
+}
+.menu{
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.hero{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh; 
+  overflow: hidden;
+}
+.hero video {
+   width: 100%;   /* prend toute la largeur */
+   height: 100%;
+   object-fit: cover; /* coupe bien pour remplir */
+}
+.produits {
+  padding: 50px;
+  background: #fff;
+  text-align: center;
+}
+.produits-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+.produit img {
+   width: 100%;
+   border-radius: 10px;
+}
+.produit h3 {
+  margin: 10px 0 5px;
+}
+.produit p {
+  font-weight: bold;
+}
+.product-image {
+  position: relative;
+}
+
+.product-icons{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.product-icons a{
+  color: #fff;
+  background: rgba(0,0,0,0.45);
+  padding: 6px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.product-image:hover  .product-icons{
+   opacity: 1;
+}
