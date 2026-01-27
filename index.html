@@ -8,26 +8,52 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-   <header>
-     <div class="logo">CH SHOES</div>
-     <nav>
-       <ul class="menu">
-         <li>ACCUEIL</li>
-         <li>SANDALES</li>
-         <li>TALONS</li>
-         <li>BALLERINES</li>
-         <li>NOUVEAUTES</li>
-       </ul>
-     </nav>
-     <div class="icons"> 🔍 👤 🛒 </div>
-   </header> 
-   <section class="hero">
-     <video src="image/0117.mp4" autoplay muted loop playsinline>
-       Votre navigateur ne supporte pas la lecture vidéo.
-     </video>
-   </section>
-   <section class="produits">
-     <h2>Nos chaussures</h2>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">CH SHOES</div>
+
+    <nav>
+      <ul class="menu">
+        <li>Accueil</li>
+        <li>Sandales</li>
+        <li>Talons</li>
+        <li>Ballerines</li>
+        <li>Nouveautés</li>
+      </ul>
+    </nav>
+
+    <div class="icons"> 🔍 👤 🛒 </div>
+  </header>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="image/0117.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>CH SHOES</h1>
+      <p>Chouchou Shoes, l'élégance au quotidien</p>
+      <a href="#" class="hero-btn">Voir la collection</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION SERVICES / COMPTE -->
+<section class="services">
+  <div class="service-item">Compte</div>
+  <div class="service-item">Livraison</div>
+  <div class="service-item">Paiement sécurisé</div>
+  <div class="service-item">Support</div>
+</section>
+
+<!-- SECTION PRODUITS -->
+<section class="produits">
+  <h2>Nos chaussures</h2>
 
      <div class="produits-grid">
       <div class="produit">
@@ -79,5 +105,72 @@
       </div>
      </div>
    </section>
+
+<!-- BLOC A : IMAGES MANNEQUINS -->
+<section class="mannequins">
+  <div class="mannequin">
+    <img src="image/mannequin1.jpg" alt="CH Shoes mannequin 1">
+  </div>
+
+  <div class="mannequin">
+    <img src="image/mannequin2.jpg" alt="CH Shoes mannequin 2">
+  </div>
+</section>
+
+<!-- BLOC B : COLLECTIONS -->
+<section class="collections">
+  <div class="collection-card">
+    <img src="image/col1.jpg" alt="Collection 1">
+    <div class="collection-text">
+      <span>COLLECTION</span>
+      <h3>Collection 1</h3>
+    </div>
+  </div>
+
+  <div class="collection-card">
+    <img src="image/col2.jpg" alt="Collection 2">
+    <div class="collection-text">
+      <span>COLLECTION</span>
+      <h3>Collection 2</h3>
+    </div>
+  </div>
+
+  <div class="collection-card">
+    <img src="image/col3.jpg" alt="Collection 3">
+    <div class="collection-text">
+      <span>COLLECTION</span>
+      <h3>Collection 3</h3>
+    </div>
+  </div>
+
+  <div class="collection-card">
+    <img src="image/col4.jpg" alt="Collection 4">
+    <div class="collection-text">
+      <span>COLLECTION</span>
+      <h3>Collection 4</h3>
+    </div>
+  </div>
+</section>
+
+<!-- BLOC C : HISTOIRE -->
+<section class="history">
+  <div class="history-card">
+    <h3>L'HISTOIRE CH SHOES</h3>
+    <p>
+      CH Shoes est née de la volonté de proposer des chaussures
+      alliant élégance, confort et identité africaine.
+    </p>
+    <p>
+      Chaque collection est pensée pour sublimer le quotidien,
+      avec des matières de qualité et un savoir-faire unique.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2024 CH Shoes. Tous droits réservés.</p>
+</footer>
+
 </body>
 </html>
