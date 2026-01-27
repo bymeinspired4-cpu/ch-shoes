@@ -37,16 +37,26 @@ header{
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
 }
+.produit {
+  display: flex;
+  flex-direction: column;
+}
+
 .produit img {
    width: 100%;
    border-radius: 10px;
+   height: 250px;
+   object-fit: contain;
 }
+
 .produit h3 {
   margin: 10px 0 5px;
 }
+
 .produit p {
   font-weight: bold;
 }
+
 .product-image {
   position: relative;
 }
