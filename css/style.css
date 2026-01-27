@@ -73,3 +73,219 @@ header{
 .product-image:hover  .product-icons{
    opacity: 1;
 }
+/* RESET SIMPLE */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* HERO SECTION */
+.hero {
+  height: 70vh;              /* grande section */
+  background-color: #222;    /* fond sombre */
+  display: flex;
+  align-items: center;       /* centre vertical */
+  justify-content: center;   /* centre horizontal */
+}
+
+.hero-content h1 {
+  color: white;
+  font-size: 48px;
+  letter-spacing: 4px;       /* effet luxe */
+}
+.hero {
+  position: relative;
+  height: 70vh;
+  overflow: hidden;
+}
+
+/* VIDÉO */
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* IMPORTANT */
+  transform: translate(-50%, -50%);
+}
+
+/* TEXTE AU-DESSUS */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content h1 {
+  color: white;
+  font-size: 48px;
+  letter-spacing: 4px;
+}
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* voile sombre */
+  z-index: 1;
+}
+
+/* assure que le texte reste au-dessus */
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+.services {
+  display: flex;
+  justify-content: space-around;
+  padding: 30px 60px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.service-item {
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+/* SECTION PRODUITS */
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 80px 60px;
+  background: #f8f8f8;
+}
+
+.product-card {
+  background: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.product-card h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.product-card p {
+  font-size: 16px;
+  font-weight: bold;
+}
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  padding: 80px 60px;
+  background: #f8f8f8;
+}
+/* SECTION BRANDING */
+.branding {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 70vh;
+}
+
+.branding-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* BLOC A : MANNEQUINS */
+.mannequins {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 90vh;
+}
+
+.mannequin img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+ /* BLOC B : COLLECTIONS */
+.collections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.collection-card {
+  position: relative;
+  height: 45vh;
+}
+
+.collection-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Texte sur l’image */
+.collection-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.35); /* voile sombre */
+  text-align: center;
+}
+
+.collection-text span {
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+.collection-text h3 {
+  font-size: 22px;
+  letter-spacing: 2px;
+}
+/* BLOC C : HISTOIRE */
+.history {
+  background: url("../images/histoire.jpg") center/cover no-repeat;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.history-card {
+  background: white;
+  padding: 40px;
+  max-width: 500px;
+  text-align: center;
+}
+
+.history-card h3 {
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.history-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
