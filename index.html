@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CH shoes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -133,15 +136,15 @@
 
   <!-- HEADER -->
   <header>
-    <div class="logo">CH SHOES</div>
+    <div class="logo"><a href="index.html" style="text-decoration: none; color: #000;">CH SHOES</a></div>
 
     <nav>
       <ul class="menu">
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="sandales.html">Sandales</a></li>
-        <li><a href="talons.html">Talons</a></li>
-        <li><a href="ballerines.html">Ballerines</a></li>
-        <li><a href="nouveautes.html">Nouveautes</a></li>
+        <li><a href="index.html" class="nav-link" data-page="index">Accueil</a></li>
+        <li><a href="sandales.html" class="nav-link" data-page="sandales">Sandales</a></li>
+        <li><a href="talons.html" class="nav-link" data-page="talons">Talons</a></li>
+        <li><a href="ballerines.html" class="nav-link" data-page="ballerines">Ballerines</a></li>
+        <li><a href="nouveautes.html" class="nav-link" data-page="nouveautes">Nouveautes</a></li>
       </ul>
     </nav>
 
@@ -159,18 +162,18 @@
     </div>
   </header>
 
-<!-- HERO SECTION -->
-<section class="hero">
-  <iframe class="hero-video" src="https://www.youtube.com/embed/dVvli-bj5jk?autoplay=1&mute=1&loop=1&playlist=dVvli-bj5jk" title="CH Shoes" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-  <div class="hero-overlay"></div>
-
-  <div class="hero-content">
-    <div class="hero-text">
-      <h1>CH SHOES</h1>
-      <p>Chouchou Shoes, l'élégance au quotidien</p>
-      <a href="#" class="hero-btn">Voir la collection</a>
-    </div>
+<!-- SECTION CARROUSEL VIDÉOS -->
+<section class="videos-carousel">
+  <div class="carousel-filter-overlay"></div>
+  <div class="youtube-wrapper">
+    <iframe
+      class="youtube-embed"
+      src="https://www.youtube.com/embed/dVvli-bj5jk?autoplay=1&mute=1&loop=1&playlist=dVvli-bj5jk&controls=1&rel=0&modestbranding=1"
+      title="CH SHOES - Vidéo"
+      frameborder="0"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen
+    ></iframe>
   </div>
 </section>
 
@@ -280,7 +283,8 @@
 <!-- BLOC C : HISTOIRE -->
 <section class="history">
   <div class="history-background">
-    <img src="image/photo1.jpg" alt="Fond histoire">
+    <img src="image/collection 3.jpg" alt="Fond histoire">
+  </div>
   </div>
   
   <div class="history-card">
@@ -336,10 +340,6 @@
     </div>
   </div>
 
-  <div class="footer-bottom">
-    <p>&copy; 2024 CH Shoes. Tous droits réservés.</p>
-  </div>
-
   <!-- Bannière défilante -->
   <div class="scrolling-banner">
     <div class="banner-content">
@@ -356,6 +356,10 @@
       <span>LIVRAISON GRATUITE</span>
       <span class="separator">•</span>
     </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2024 CH Shoes. Tous droits réservés.</p>
   </div>
 </footer>
 

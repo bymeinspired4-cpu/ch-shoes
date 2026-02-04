@@ -1,20 +1,68 @@
-// Modal functionality
+/**
+ * ============================================
+ * CH SHOES - Application Principale
+ * Gestion complète du site e-commerce
+ * ============================================
+ */
+
 document.addEventListener('DOMContentLoaded', function() {
-  // Afficher le loader au chargement de la page
+  
+  // ========== LOADER AU CHARGEMENT ==========
+  /**
+   * Affiche un loader au premier chargement de la page
+   * Utilise sessionStorage pour ne l'afficher qu'une fois par session
+   */
   const pageLoader = document.getElementById('page-loader');
   if (pageLoader && !sessionStorage.getItem('loaderShown')) {
     pageLoader.classList.add('active');
-    
     setTimeout(() => {
       pageLoader.classList.remove('active');
       sessionStorage.setItem('loaderShown', 'true');
-    }, 2000); // 2 secondes d'affichage
+    }, 2000);
   }
 
+  // ========== DÉTECTION PAGE ACTIVE ==========
+  /**
+   * Détecte la page actuelle et met en surbrillance le lien de navigation correspondant
+   * Comparaison basée sur le nom du fichier HTML
+   */
+  const currentPage = window.location.pathname.split('/').pop().replace('.html', '') || 'index';
+  const navLinks = document.querySelectorAll('.nav-link');
+  navLinks.forEach(link => {
+    const linkPage = link.getAttribute('data-page');
+    if (linkPage === currentPage) {
+      link.classList.add('active');
+    }
+  });
+
+  // ========== LOADER SUR NAVIGATION ==========
+  /**
+   * Affiche le loader lors du clic sur les liens de navigation
+   * Transition de 1500ms avant de changer de page
+   */
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetUrl = this.getAttribute('href');
+      
+      if (pageLoader) {
+        pageLoader.classList.add('active');
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 1500);
+      } else {
+        window.location.href = targetUrl;
+      }
+    });
+  });
+
+  // ========== GESTION DES MODALS ==========
   const modalLinks = document.querySelectorAll('[data-modal]');
   const closeButtons = document.querySelectorAll('.close');
 
-  // Ouvrir les modals
+  /**
+   * Ouvre les modals au clic sur les liens avec data-modal
+   */
   modalLinks.forEach(link => {
     link.addEventListener('click', function(e) {
       e.preventDefault();
@@ -26,7 +74,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Fermer les modals
+  /**
+   * Ferme les modals au clic sur le bouton de fermeture
+   */
   closeButtons.forEach(button => {
     button.addEventListener('click', function(e) {
       e.preventDefault();
@@ -38,14 +88,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Fermer la modal en cliquant en dehors du contenu
+  /**
+   * Ferme les modals en cliquant en dehors du contenu (sur l'overlay)
+   */
   window.addEventListener('click', function(event) {
     if (event.target.classList.contains('modal')) {
       event.target.classList.remove('active');
     }
   });
 
-  // Fonctionnalité de recherche
+  // ========== RECHERCHE ==========
+  /**
+   * Fonctionnalité de recherche avec validation
+   */
   const searchBtn = document.querySelector('.search-btn');
   if (searchBtn) {
     searchBtn.addEventListener('click', function() {
@@ -54,12 +109,13 @@ document.addEventListener('DOMContentLoaded', function() {
       if (query) {
         console.log('Recherche : ' + query);
         alert('Recherche pour : ' + query);
-        // Tu peux ajouter ici la logique de recherche réelle
       }
     });
   }
 
-  // Permettre la recherche avec Entrée
+  /**
+   * Active la recherche au clic sur Entrée dans le champ
+   */
   const searchInput = document.querySelector('.search-input');
   if (searchInput) {
     searchInput.addEventListener('keypress', function(e) {
@@ -71,6 +127,11 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Gestion des onglets du formulaire de profil
+  // ========== FORMULAIRES PROFIL ==========
+  /**
+   * Gestion des onglets de connexion/inscription
+   * Bascule entre les deux vues du modal profil
+   */
   const profileTabBtns = document.querySelectorAll('.profile-tab-btn');
   const profileTabContents = document.querySelectorAll('.profile-tab-content');
 
@@ -78,17 +139,19 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.addEventListener('click', function() {
       const tabName = this.getAttribute('data-tab');
       
-      // Enlever la classe active de tous les boutons et contenus
       profileTabBtns.forEach(b => b.classList.remove('active'));
       profileTabContents.forEach(content => content.classList.remove('active'));
       
-      // Ajouter la classe active au bouton et contenu cliqué
       this.classList.add('active');
       document.getElementById(tabName + '-tab').classList.add('active');
     });
   });
 
-  // Gestion du formulaire de connexion
+  // ========== FORMULAIRE CONNEXION ==========
+  /**
+   * Gestion de la soumission du formulaire de connexion
+   * Sauvegarde les données dans localStorage
+   */
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', function(e) {
@@ -96,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const email = document.getElementById('login-email').value;
       const password = document.getElementById('login-password').value;
       
-      // Sauvegarder dans localStorage
       localStorage.setItem('user', JSON.stringify({
         email: email,
         loggedIn: true
@@ -108,7 +170,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Gestion du formulaire d'inscription
+  // ========== FORMULAIRE INSCRIPTION ==========
+  /**
+   * Gestion de la soumission du formulaire d'inscription
+   * Vérifie les mots de passe et la longueur minimale
+   */
   const registerForm = document.getElementById('register-form');
   if (registerForm) {
     registerForm.addEventListener('submit', function(e) {
@@ -128,7 +194,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
-      // Sauvegarder dans localStorage
       localStorage.setItem('user', JSON.stringify({
         name: name,
         email: email,
@@ -227,34 +292,131 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Animation des sections au défilement
-  const animatedSections = document.querySelectorAll('.nouveautes, .collections, .collections-title, .history');
-  animatedSections.forEach(section => section.classList.add('animate-on-scroll'));
+  // ========== ANIMATION HISTOIRE AU SCROLL ==========
+  /**
+   * Déclenche l'animation de la section histoire au scroll
+   */
+  window.addEventListener('scroll', function() {
+    const historySection = document.querySelector('.history');
+    if (!historySection) return;
 
+    const rect = historySection.getBoundingClientRect();
+    const isVisible = rect.top < window.innerHeight * 0.8;
+
+    if (isVisible) {
+      const historyBg = document.querySelector('.history-background');
+      const historyCard = document.querySelector('.history-card');
+      
+      if (historyBg && !historyBg.classList.contains('animate-in')) {
+        historyBg.classList.add('animate-in');
+      }
+      if (historyCard && !historyCard.classList.contains('animate-in')) {
+        historyCard.classList.add('animate-in');
+      }
+    }
+  }, { passive: true });
+
+  // ========== AUTRES SECTIONS ANIMÉES ==========
+  /**
+   * Anime les autres sections au scroll (nouveautés, collections)
+   */
+  const animatedSections = document.querySelectorAll('.nouveautes, .collections, .collections-title');
   if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries, obs) => {
+    const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate-in');
-          
-          // Animation spéciale pour la section histoire
-          if (entry.target.classList.contains('history')) {
-            const historyBg = entry.target.querySelector('.history-background');
-            const historyCard = entry.target.querySelector('.history-card');
-            if (historyBg) historyBg.classList.add('animate-in');
-            if (historyCard) historyCard.classList.add('animate-in');
-          }
-          
-          obs.unobserve(entry.target);
+          sectionObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.2 });
 
-    animatedSections.forEach(section => observer.observe(section));
+    animatedSections.forEach(section => {
+      section.classList.add('animate-on-scroll');
+      sectionObserver.observe(section);
+    });
   } else {
-    animatedSections.forEach(section => section.classList.add('animate-in'));
+    animatedSections.forEach(section => {
+      section.classList.add('animate-on-scroll');
+      section.classList.add('animate-in');
+    });
   }
 
-  // Parallax doux sur Nouveautés et Collections
+  // ========== ANIMATIONS PRODUITS - TILT & RÉVÉLATION ==========
+  /**
+   * Crée un effet de tilt 3D au survol des images produits
+   * - Les images pivotent selon la position de la souris
+   * - Combiné avec un effet de brillance (shine)
+   * - Respecte la préférence d'accessibilité prefers-reduced-motion
+   * - Utilise IntersectionObserver pour activer les animations au scroll
+   */
+  const productCards = document.querySelectorAll('.produit');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (productCards.length > 0) {
+    if ('IntersectionObserver' in window) {
+      const productObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      productCards.forEach(card => productObserver.observe(card));
+    } else {
+      productCards.forEach(card => card.classList.add('is-visible'));
+    }
+
+    if (!reduceMotion) {
+      productCards.forEach(card => {
+        const image = card.querySelector('.product-image');
+        if (!image) return;
+
+        /**
+         * Calcule l'angle de rotation selon la position de la souris
+         * - rx: rotation X (basée sur la position Y)
+         * - ry: rotation Y (basée sur la position X)
+         * - mx, my: position du shine (effect de brillance)
+         */
+        const onMove = (e) => {
+          const rect = image.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const rx = ((y / rect.height) - 0.5) * -8;
+          const ry = ((x / rect.width) - 0.5) * 8;
+
+          image.style.setProperty('--rx', `${rx}deg`);
+          image.style.setProperty('--ry', `${ry}deg`);
+          image.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
+          image.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+        };
+
+        /**
+         * Réinitialise les transformations quand la souris quitte l'image
+         */
+        const onLeave = () => {
+          image.style.setProperty('--rx', '0deg');
+          image.style.setProperty('--ry', '0deg');
+          image.style.setProperty('--mx', '50%');
+          image.style.setProperty('--my', '50%');
+        };
+
+        card.addEventListener('mousemove', onMove);
+        card.addEventListener('mouseleave', onLeave);
+      });
+    }
+  }
+
+  // ========== PARALLAX DOUX IMAGES COLLECTION ==========
+  /**
+   * Crée un effet de parallax léger sur les images des sections Nouveautés et Collections
+   * - Les images bougent légèrement lors du scroll
+   * - Décalage vertical proportionnel à la position dans la fenêtre
+   * - Utilise requestAnimationFrame pour optimiser la performance
+   * - Respecte prefers-reduced-motion pour l'accessibilité
+   */
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const parallaxItems = document.querySelectorAll(
     '.nouveautes img, .collection-card img'
@@ -264,6 +426,10 @@ document.addEventListener('DOMContentLoaded', function() {
   if (!prefersReducedMotion && parallaxItems.length > 0) {
     let ticking = false;
 
+    /**
+     * Met à jour le décalage parallax de chaque image
+     * Basé sur la distance entre le centre de l'image et le centre de la fenêtre
+     */
     const onScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
@@ -284,13 +450,22 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  // Gestion des favoris
+  // ========== GESTION DES FAVORIS ==========
+  /**
+   * Gère les produits favoris stockés dans localStorage
+   * - Les favoris sont persistants entre les sessions
+   * - L'icône cœur indique si un produit est en favoris
+   * - Mise à jour du compteur et de la modale des favoris
+   */
   let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
   updateFavoritesCount();
   updateFavoritesModal();
 
-  // Loader pour navigation vers produit (déjà défini en haut)
-  
+  // ========== NAVIGATION VERS PAGE PRODUIT ==========
+  /**
+   * Affiche un loader avant de naviguer vers la page détail d'un produit
+   * Crée un délai visuel pour améliorer la perception du chargement
+   */
   function showLoaderAndNavigate(url) {
     if (pageLoader) {
       pageLoader.classList.add('active');
@@ -302,7 +477,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Clic sur l'image produit -> afficher loader puis ouvrir la page détail
+  /**
+   * Clic sur l'image produit -> affiche loader puis ouvre la page détail
+   * Crée un ID unique basé sur le titre du produit
+   * Ne déclenche pas la navigation si clic sur les icônes (panier, cœur)
+   */
   const productImages = document.querySelectorAll('.product-image');
   productImages.forEach(image => {
     image.addEventListener('click', function(e) {
@@ -319,7 +498,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Quick view (popup) via l'icône eye
+  // ========== QUICK VIEW - MODALE PRODUIT RAPIDE ==========
+  /**
+   * Système d'aperçu rapide (lightbox) pour les produits
+   * - Affiche les images, titre, prix, description
+   * - Navigation entre les images avec flèches
+   * - Vignettes cliquables pour changer l'image
+   * - Bouton "Voir détails" qui redirige vers la page produit
+   */
   const quickviewModal = document.getElementById('quickview-modal');
   const quickviewTitle = document.querySelector('.quickview-title');
   const quickviewPrice = document.querySelector('.quickview-price');
@@ -333,6 +519,10 @@ document.addEventListener('DOMContentLoaded', function() {
   let quickviewImages = [];
   let quickviewIndex = 0;
 
+  /**
+   * Affiche l'image sélectionnée dans la modale Quick View
+   * Met à jour les vignettes (thumbnails) pour montrer laquelle est active
+   */
   function renderQuickviewImage(index) {
     if (!quickviewMainImg || !quickviewImages.length) return;
     quickviewIndex = (index + quickviewImages.length) % quickviewImages.length;
@@ -462,6 +652,185 @@ document.addEventListener('DOMContentLoaded', function() {
         modalBody.innerHTML = html;
       }
     }
+  }
+
+  // ========== CARROUSEL VIDÉOS HORIZONTAL ==========
+  /**
+   * Carrousel multi-cartes avec vidéo centrale active et côtés grisés
+   * - Navigation au clic ou au clavier
+   * - Auto-play tous les 6 secondes
+   * - Pause au hover
+   * - Adaptation responsive au redimensionnement
+   */
+  const carouselTrack = document.getElementById('carousel-track');
+  const carouselPrev = document.getElementById('carousel-prev');
+  const carouselNext = document.getElementById('carousel-next');
+  const carouselDotsContainer = document.getElementById('carousel-dots');
+  const carouselWrapper = document.querySelector('.carousel-wrapper');
+  
+  if (carouselTrack) {
+    const items = document.querySelectorAll('.carousel-item');
+    let currentIndex = 0;
+    let autoPlayInterval;
+
+    /**
+     * Crée les points de navigation sous le carrousel
+     */
+    items.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+      dot.addEventListener('click', () => goToSlide(index));
+      carouselDotsContainer.appendChild(dot);
+    });
+
+    /**
+     * Met à jour la position du carrousel et les classes actives
+     * Centrage de l'item actif avec transformation CSS
+     */
+    function updateCarousel() {
+      const activeItem = items[currentIndex];
+      if (!activeItem || !carouselWrapper) return;
+
+      const offset = activeItem.offsetLeft - (carouselWrapper.clientWidth - activeItem.clientWidth) / 2;
+      carouselTrack.style.transform = `translateX(${-offset}px)`;
+
+      items.forEach((item, index) => {
+        item.classList.toggle('is-active', index === currentIndex);
+      });
+      
+      document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    function goToSlide(index) {
+      currentIndex = (index + items.length) % items.length;
+      updateCarousel();
+      resetAutoPlay();
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % items.length;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + items.length) % items.length;
+      updateCarousel();
+    }
+
+    function startAutoPlay() {
+      autoPlayInterval = setInterval(nextSlide, 4000);
+    }
+
+    function resetAutoPlay() {
+      clearInterval(autoPlayInterval);
+      startAutoPlay();
+    }
+
+    /**
+     * Événements de navigation
+     */
+    carouselNext.addEventListener('click', () => {
+      nextSlide();
+      resetAutoPlay();
+    });
+
+    carouselPrev.addEventListener('click', () => {
+      prevSlide();
+      resetAutoPlay();
+    });
+
+    /**
+     * Pause l'auto-play au survol, reprend quand la souris quitte
+     */
+    carouselTrack.addEventListener('mouseenter', () => {
+      clearInterval(autoPlayInterval);
+    });
+
+    carouselTrack.addEventListener('mouseleave', () => {
+      startAutoPlay();
+    });
+
+    /**
+     * Navigation au clavier (flèches gauche/droite)
+     */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        nextSlide();
+        resetAutoPlay();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+        resetAutoPlay();
+      }
+    });
+
+    /**
+     * Réajuste le carrousel lors du redimensionnement de la fenêtre
+     */
+    window.addEventListener('resize', updateCarousel);
+
+    startAutoPlay();
+    updateCarousel();
+  }
+
+  // ========== EFFET SCROLL CARROUSEL ==========
+  /**
+   * Réduit et assombrit le carrousel au défilement vers la section "Nos chaussures"
+   * Crée un effet de "fermeture" avec scale et opacité progressifs
+   * Ajoute un filtre gris au-dessus qui s'intensifie
+   */
+  const carouselSection = document.querySelector('.videos-carousel');
+  const produitsSection = document.querySelector('.produits');
+  const carouselFilterOverlay = document.querySelector('.carousel-filter-overlay');
+  
+  if (carouselSection && produitsSection) {
+    let ticking = false;
+    
+    const handleCarouselScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const carouselRect = carouselSection.getBoundingClientRect();
+          const produitsRect = produitsSection.getBoundingClientRect();
+          const windowHeight = window.innerHeight;
+          
+          // Démarrer l'effet seulement quand la section produits commence à entrer
+          const startTrigger = windowHeight * 0.75;
+          const endTrigger = windowHeight * 0.2;
+          const scrollProgress = produitsRect.top >= startTrigger
+            ? 0
+            : Math.max(
+                0,
+                Math.min(1, (startTrigger - produitsRect.top) / (startTrigger - endTrigger))
+              );
+          
+          // Réduire l'échelle et l'opacité du carrousel de manière plus visible
+          const scale = 1 - (scrollProgress * 0.25); // Réduit jusqu'à 75%
+          const opacity = 1 - (scrollProgress * 0.5); // Réduit l'opacité jusqu'à 50%
+          const translateY = scrollProgress * -50; // Déplace vers le haut
+          
+          // Intensifier le filtre gris quand le carrousel se ferme
+          const filterIntensity = scrollProgress * 0.85; // Filtre jusqu'à 85% d'opacité
+          
+          carouselSection.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+          carouselSection.style.opacity = opacity;
+          
+          if (carouselFilterOverlay) {
+            if (scrollProgress === 0) {
+              carouselFilterOverlay.style.background = 'rgba(50, 50, 50, 0)';
+            } else {
+              carouselFilterOverlay.style.background = `rgba(50, 50, 50, ${filterIntensity})`;
+            }
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    
+    window.addEventListener('scroll', handleCarouselScroll, { passive: true });
+    handleCarouselScroll(); // Initial call
   }
 });
 

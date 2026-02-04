@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ballerines - CH shoes</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Ballerines - CH shoes</title>    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -126,17 +127,22 @@
     </div>
   </div>
 
+  <!-- LOADER -->
+  <div id="page-loader" class="page-loader">
+    <div class="loader-logo">CH SHOES</div>
+  </div>
+
   <!-- HEADER -->
   <header>
-    <div class="logo">CH SHOES</div>
+    <div class="logo"><a href="index.html" style="text-decoration: none; color: #000;">CH SHOES</a></div>
 
     <nav>
       <ul class="menu">
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="sandales.html">Sandales</a></li>
-        <li><a href="talons.html">Talons</a></li>
-        <li><a href="ballerines.html">Ballerines</a></li>
-        <li><a href="nouveautes.html">Nouveautes</a></li>
+        <li><a href="index.html" class="nav-link" data-page="index">Accueil</a></li>
+        <li><a href="sandales.html" class="nav-link" data-page="sandales">Sandales</a></li>
+        <li><a href="talons.html" class="nav-link" data-page="talons">Talons</a></li>
+        <li><a href="ballerines.html" class="nav-link" data-page="ballerines">Ballerines</a></li>
+        <li><a href="nouveautes.html" class="nav-link" data-page="nouveautes">Nouveautes</a></li>
       </ul>
     </nav>
 
@@ -155,14 +161,6 @@
   </header>
 
 
-
-<!-- SECTION SERVICES / COMPTE -->
-<section class="services">
-  <div class="service-item">Compte</div>
-  <div class="service-item">Livraison</div>
-  <div class="service-item">Paiement sécurisé</div>
-  <div class="service-item">Support</div>
-</section>
 
 <!-- SECTION PRODUITS -->
 
@@ -453,10 +451,6 @@
         <li><a href="#">Mentions légales</a></li>
       </ul>
     </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>&copy; 2024 CH Shoes. Tous droits réservés.</p>
   </div>
 
   <!-- Bannière défilante -->
