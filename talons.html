@@ -3,11 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CH shoes</title>
+    <title>Talons - CH shoes</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+
+  <!-- MODALS -->
+  <!-- Modal Recherche -->
+  <div id="search-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="search">&times;</span>
+      <h2>Rechercher un article</h2>
+      <input type="text" placeholder="Entrez votre recherche..." class="search-input">
+      <button class="search-btn">Rechercher</button>
+    </div>
+  </div>
+
+  <!-- Modal Panier -->
+  <div id="cart-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="cart">&times;</span>
+      <h2>Mon Panier</h2>
+      <div class="modal-body">
+        <p>Votre panier est vide</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Favoris -->
+  <div id="favorites-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="favorites">&times;</span>
+      <h2>Mes Favoris</h2>
+      <div class="modal-body">
+        <p>Vous n'avez pas encore de favoris</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Profil -->
+  <div id="profile-modal" class="modal">
+    <div class="modal-content profile-modal-content">
+      <span class="close" data-modal="profile">&times;</span>
+      <div class="profile-tabs">
+        <button class="profile-tab-btn active" data-tab="login">Se connecter</button>
+        <button class="profile-tab-btn" data-tab="register">Créer un compte</button>
+      </div>
+
+      <!-- Onglet Connexion -->
+      <div id="login-tab" class="profile-tab-content active">
+        <h2>Connexion</h2>
+        <form id="login-form" class="profile-form">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="votre@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Mot de passe</label>
+            <input type="password" id="login-password" placeholder="Entrez votre mot de passe" required>
+          </div>
+          <button type="submit" class="form-submit-btn">Se connecter</button>
+          <p class="form-help"><a href="#">Mot de passe oublié ?</a></p>
+        </form>
+      </div>
+
+      <!-- Onglet Inscription -->
+      <div id="register-tab" class="profile-tab-content">
+        <h2>Créer un compte</h2>
+        <form id="register-form" class="profile-form">
+          <div class="form-group">
+            <label for="register-name">Nom complet</label>
+            <input type="text" id="register-name" placeholder="Jean Dupont" required>
+          </div>
+          <div class="form-group">
+            <label for="register-email">Email</label>
+            <input type="email" id="register-email" placeholder="votre@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="register-phone">Téléphone</label>
+            <input type="tel" id="register-phone" placeholder="+225 07 XX XX XX XX">
+          </div>
+          <div class="form-group">
+            <label for="register-password">Mot de passe</label>
+            <input type="password" id="register-password" placeholder="Minimum 8 caractères" required>
+          </div>
+          <div class="form-group">
+            <label for="register-password-confirm">Confirmer le mot de passe</label>
+            <input type="password" id="register-password-confirm" placeholder="Confirmez votre mot de passe" required>
+          </div>
+          <div class="form-group checkbox">
+            <input type="checkbox" id="terms" required>
+            <label for="terms">J'accepte les conditions d'utilisation</label>
+          </div>
+          <button type="submit" class="form-submit-btn">Créer un compte</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Quick View Produit -->
+  <div id="quickview-modal" class="modal">
+    <div class="modal-content quickview-content">
+      <span class="close" data-modal="quickview">&times;</span>
+      <div class="quickview-body">
+        <div class="quickview-gallery">
+          <div class="quickview-main">
+            <button class="quickview-nav prev" type="button"><i class="fa-solid fa-chevron-left"></i></button>
+            <img class="quickview-main-img" src="" alt="Produit">
+            <button class="quickview-nav next" type="button"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          <div class="quickview-thumbs"></div>
+        </div>
+        <div class="quickview-info">
+          <h2 class="quickview-title"></h2>
+          <div class="quickview-price"></div>
+          <p class="quickview-description"></p>
+          <button class="btn-ajouter-panier">Ajouter au panier</button>
+          <a class="quickview-link" href="produit.html">Voir la fiche</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- HEADER -->
   <header>
@@ -23,7 +140,18 @@
       </ul>
     </nav>
 
-    <div class="icons"> 🔍 👤 🛒 </div>
+    <div class="icons">
+      <a href="#" class="icon-link" data-modal="search"><i class="fa-solid fa-magnifying-glass"></i></a>
+      <a href="#" class="icon-link" data-modal="cart">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="badge">0</span>
+      </a>
+      <a href="#" class="icon-link" data-modal="favorites">
+        <i class="fa-solid fa-heart"></i>
+        <span class="badge" id="favorites-count">0</span>
+      </a>
+      <a href="#" class="icon-link" data-modal="profile"><i class="fa-solid fa-user"></i></a>
+    </div>
   </header>
 
 
@@ -45,7 +173,7 @@
       <div class="product-image">
         <img src="image/rose satin.jpg" alt="Mule Noeud Rose Satin">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=mule-noeud-rose"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -57,7 +185,7 @@
       <div class="product-image">
         <img src="image/escarpin noir .jpg" alt="Escarpin Noir">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=escarpin-noir"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -69,7 +197,7 @@
       <div class="product-image">
         <img src="image/blanche noeud.jpg" alt="blanche noeud">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=talon-blanche-noeud"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -81,7 +209,7 @@
       <div class="product-image">
         <img src="image/doree strass.jpg" alt="doree strass">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=talon-doree-strass"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -93,7 +221,7 @@
       <div class="product-image">
         <img src="image/verte fine.jpg" alt="fine verte">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=talon-menthe"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -239,8 +367,63 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>&copy; 2024 CH Shoes. Tous droits réservés.</p>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>Recevez notre newsletter</h4>
+      <input type="email" placeholder="Votre e-mail">
+    </div>
+
+    <div class="footer-section">
+      <h4>CH SHOES</h4>
+      <ul>
+        <li><a href="#">Nous contacter</a></li>
+        <li><a href="sandales.html">Sandales</a></li>
+        <li><a href="nouveautes.html">Nouveautés</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Nos réseaux</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Tik tok</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Aide</h4>
+      <ul>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Politique de confidentialité</a></li>
+        <li><a href="#">Mentions légales</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2024 CH Shoes. Tous droits réservés.</p>
+  </div>
+
+  <!-- Bannière défilante -->
+  <div class="scrolling-banner">
+    <div class="banner-content">
+      <span>CH SHOES</span>
+      <span class="separator">•</span>
+      <span>ÉLÉGANCE AFRICAINE</span>
+      <span class="separator">•</span>
+      <span>LIVRAISON GRATUITE</span>
+      <span class="separator">•</span>
+      <span>CH SHOES</span>
+      <span class="separator">•</span>
+      <span>ÉLÉGANCE AFRICAINE</span>
+      <span class="separator">•</span>
+      <span>LIVRAISON GRATUITE</span>
+      <span class="separator">•</span>
+    </div>
+  </div>
 </footer>
 
+<script src="js/main.js"></script>
 </body>
 </html>

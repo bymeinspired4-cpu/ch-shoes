@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails Produit - CH SHOES</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- MODALS -->
+  <!-- Modal Recherche -->
+  <div id="search-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="search">&times;</span>
+      <h2>Rechercher un article</h2>
+      <input type="text" placeholder="Entrez votre recherche..." class="search-input">
+      <button class="search-btn">Rechercher</button>
+    </div>
+  </div>
+
+  <!-- Modal Panier -->
+  <div id="cart-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="cart">&times;</span>
+      <h2>Mon Panier</h2>
+      <div class="modal-body">
+        <p>Votre panier est vide</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Favoris -->
+  <div id="favorites-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="favorites">&times;</span>
+      <h2>Mes Favoris</h2>
+      <div class="modal-body">
+        <p>Vous n'avez pas encore de favoris</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Profil -->
+  <div id="profile-modal" class="modal">
+    <div class="modal-content profile-modal-content">
+      <span class="close" data-modal="profile">&times;</span>
+      <div class="profile-tabs">
+        <button class="profile-tab-btn active" data-tab="login">Se connecter</button>
+        <button class="profile-tab-btn" data-tab="register">Créer un compte</button>
+      </div>
+
+      <!-- Onglet Connexion -->
+      <div id="login-tab" class="profile-tab-content active">
+        <h2>Connexion</h2>
+        <form id="login-form" class="profile-form">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="votre@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Mot de passe</label>
+            <input type="password" id="login-password" placeholder="Entrez votre mot de passe" required>
+          </div>
+          <button type="submit" class="form-submit-btn">Se connecter</button>
+          <p class="form-help"><a href="#">Mot de passe oublié ?</a></p>
+        </form>
+      </div>
+
+      <!-- Onglet Inscription -->
+      <div id="register-tab" class="profile-tab-content">
+        <h2>Créer un compte</h2>
+        <form id="register-form" class="profile-form">
+          <div class="form-group">
+            <label for="register-name">Nom complet</label>
+            <input type="text" id="register-name" placeholder="Jean Dupont" required>
+          </div>
+          <div class="form-group">
+            <label for="register-email">Email</label>
+            <input type="email" id="register-email" placeholder="votre@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="register-phone">Téléphone</label>
+            <input type="tel" id="register-phone" placeholder="+225 07 XX XX XX XX">
+          </div>
+          <div class="form-group">
+            <label for="register-password">Mot de passe</label>
+            <input type="password" id="register-password" placeholder="Minimum 8 caractères" required>
+          </div>
+          <div class="form-group">
+            <label for="register-password-confirm">Confirmer le mot de passe</label>
+            <input type="password" id="register-password-confirm" placeholder="Confirmez votre mot de passe" required>
+          </div>
+          <div class="form-group checkbox">
+            <input type="checkbox" id="terms" required>
+            <label for="terms">J'accepte les conditions d'utilisation</label>
+          </div>
+          <button type="submit" class="form-submit-btn">Créer un compte</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo"><a href="index.html" style="text-decoration: none; color: #000;">CH SHOES</a></div>
+
+    <nav>
+      <ul class="menu">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="sandales.html">Sandales</a></li>
+        <li><a href="talons.html">Talons</a></li>
+        <li><a href="ballerines.html">Ballerines</a></li>
+        <li><a href="nouveautes.html">Nouveautes</a></li>
+      </ul>
+    </nav>
+
+    <div class="icons">
+      <a href="#" class="icon-link" data-modal="search"><i class="fa-solid fa-magnifying-glass"></i></a>
+      <a href="#" class="icon-link" data-modal="cart">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="badge">0</span>
+      </a>
+      <a href="#" class="icon-link" data-modal="favorites">
+        <i class="fa-solid fa-heart"></i>
+        <span class="badge" id="favorites-count">0</span>
+      </a>
+      <a href="#" class="icon-link" data-modal="profile"><i class="fa-solid fa-user"></i></a>
+    </div>
+  </header>
+
+  <!-- SECTION PRODUIT DÉTAIL -->
+  <section class="produit-detail">
+    <div class="produit-detail-container">
+      <div class="produit-detail-image">
+        <img id="product-img" src="image/unnamed.jpg" alt="Produit">
+      </div>
+
+      <div class="produit-detail-info">
+        <h1 id="product-name">Nom du produit</h1>
+        
+        <div class="produit-detail-collection">
+          <span id="product-collection">Collection</span>
+        </div>
+
+        <div class="produit-detail-price">
+          <span id="product-price">00 000 FCFA</span>
+        </div>
+
+        <div class="produit-detail-description">
+          <h3>Description</h3>
+          <p id="product-description">Description du produit...</p>
+        </div>
+
+        <div class="produit-detail-caracteristiques">
+          <h3>Caractéristiques</h3>
+          <ul id="product-caracteristiques">
+            <li>Matière: Cuir premium</li>
+            <li>Couleur: Disponible</li>
+            <li>Type: Produit</li>
+          </ul>
+        </div>
+
+        <div class="produit-detail-actions">
+          <button class="btn-ajouter-panier">Ajouter au panier</button>
+          <button class="btn-ajouter-favoris" id="btn-favoris">
+            <i class="fa-regular fa-heart"></i> Ajouter aux favoris
+          </button>
+        </div>
+
+        <div class="produit-detail-retour">
+          <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Retour</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REASSURANCE -->
+  <section class="reassurance">
+    <div class="reassurance-item">
+      <i class="fa-regular fa-credit-card"></i>
+      <h4>Paiement sécurisé</h4>
+      <p>Visa · Mobile Money · Mastercard</p>
+    </div>
+    <div class="reassurance-item">
+      <i class="fa-solid fa-truck-fast"></i>
+      <h4>Livraison rapide</h4>
+      <p>Sous 2-3 jours partout dans le monde</p>
+    </div>
+    <div class="reassurance-item">
+      <i class="fa-solid fa-headset"></i>
+      <h4>Service client</h4>
+      <p>+225 07 67 22 59 13</p>
+    </div>
+    <div class="reassurance-item">
+      <i class="fa-solid fa-location-dot"></i>
+      <h4>Nos boutiques</h4>
+      <p>Retrouvez-nous en boutique</p>
+    </div>
+  </section>
+
+  <!-- VOUS AIMEREZ AUSSI -->
+  <section class="related-products">
+    <h2>Vous aimerez aussi</h2>
+    <div class="related-grid">
+      <div class="related-item">
+        <img src="image/unnamed.jpg" alt="Produit recommandé 1">
+        <h3>Portefeuille W Autruche Rose</h3>
+        <p>35 000 FCFA</p>
+      </div>
+      <div class="related-item">
+        <img src="image/unnamed (2).jpg" alt="Produit recommandé 2">
+        <h3>Akan Autruche Bleu</h3>
+        <p>120 000 FCFA</p>
+      </div>
+      <div class="related-item">
+        <img src="image/unnamed (1).jpg" alt="Produit recommandé 3">
+        <h3>Portefeuille W Croco Rose</h3>
+        <p>30 000 FCFA</p>
+      </div>
+      <div class="related-item">
+        <img src="image/vernies.jpg" alt="Produit recommandé 4">
+        <h3>Portefeuille Akan Croco Rose</h3>
+        <p>30 000 FCFA</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Recevez notre newsletter</h4>
+        <input type="email" placeholder="Votre e-mail">
+      </div>
+
+      <div class="footer-section">
+        <h4>CH SHOES</h4>
+        <ul>
+          <li><a href="#">Nous contacter</a></li>
+          <li><a href="sandales.html">Sandales</a></li>
+          <li><a href="nouveautes.html">Nouveautés</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Nos réseaux</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Tik tok</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Aide</h4>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Politique de confidentialité</a></li>
+          <li><a href="#">Mentions légales</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2024 CH Shoes. Tous droits réservés.</p>
+    </div>
+
+    <!-- Bannière défilante -->
+    <div class="scrolling-banner">
+      <div class="banner-content">
+        <span>CH SHOES</span>
+        <span class="separator">•</span>
+        <span>ÉLÉGANCE AFRICAINE</span>
+        <span class="separator">•</span>
+        <span>LIVRAISON GRATUITE</span>
+        <span class="separator">•</span>
+        <span>CH SHOES</span>
+        <span class="separator">•</span>
+        <span>ÉLÉGANCE AFRICAINE</span>
+        <span class="separator">•</span>
+        <span>LIVRAISON GRATUITE</span>
+        <span class="separator">•</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/produit.js"></script>
+</body>
+</html>
