@@ -32,8 +32,125 @@
       <div class="modal-body">
         <p>Votre panier est vide</p>
       </div>
+      <div class="cart-footer" style="display: none;">
+        <div class="cart-total">
+          <strong>Total: <span id="cart-total-amount">0 FCFA</span></strong>
+        </div>
+        <button class="btn-commander" onclick="openCheckout()">Commander</button>
+      </div>
     </div>
   </div>
+
+  <!-- Modal Commande -->
+  <div id="checkout-modal" class="modal">
+    <div class="modal-content checkout-content">
+      <span class="close" data-modal="checkout">&times;</span>
+      <h2>Finaliser ma commande</h2>
+      <div class="checkout-body">
+        <div class="checkout-section">
+          <h3>Informations de livraison</h3>
+          <form id="checkout-form">
+            <div class="form-group">
+              <label for="checkout-name">Nom complet *</label>
+              <input type="text" id="checkout-name" required>
+            </div>
+            <div class="form-group">
+              <label for="checkout-phone">Téléphone *</label>
+              <input type="tel" id="checkout-phone" required placeholder="+225 07 XX XX XX XX">
+            </div>
+            <div class="form-group">
+              <label for="checkout-email">Email</label>
+              <input type="email" id="checkout-email" placeholder="votre@email.com">
+            </div>
+            <div class="form-group">
+              <label for="checkout-address">Adresse de livraison *</label>
+              <textarea id="checkout-address" rows="3" required placeholder="Votre adresse complète"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="checkout-city">Ville *</label>
+              <input type="text" id="checkout-city" required>
+            </div>
+            <div class="form-group">
+              <label for="checkout-notes">Instructions de livraison (optionnel)</label>
+              <textarea id="checkout-notes" rows="2" placeholder="Ex: Sonner à l'interphone, 2ème étage..."></textarea>
+            </div>
+          </form>
+        </div>
+        
+        <div class="checkout-section">
+          <h3>Récapitulatif de la commande</h3>
+          <div id="checkout-items"></div>
+          <div class="checkout-total">
+            <div class="total-line">
+              <span>Sous-total:</span>
+              <span id="checkout-subtotal">0 FCFA</span>
+            </div>
+            <div class="total-line">
+              <span>Livraison:</span>
+              <span id="checkout-delivery">Gratuite</span>
+            </div>
+            <div class="total-line total-final">
+              <strong>Total:</strong>
+              <strong id="checkout-total">0 FCFA</strong>
+            </div>
+          </div>
+          <button type="button" class="btn-validate-order" onclick="validateOrder()">Valider la commande</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="search-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="search">&times;</span>
+      <h2>Rechercher un article</h2>
+      <input type="text" placeholder="Entrez votre recherche..." class="search-input">
+      <div class="modal-body"></div>
+    </div>
+  </div>
+
+  <div id="favorites-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="favorites">&times;</span>
+      <h2>Mes Favoris</h2>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+
+  <div id="profile-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="profile">&times;</span>
+      <h2>Mon Compte</h2>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Modal Quick View -->
+  <div id="quickview-modal" class="modal">
+    <div class="modal-content quickview-content">
+      <span class="close" data-modal="quickview">&times;</span>
+      <div class="quickview-body">
+        <div class="quickview-gallery">
+          <div class="quickview-main">
+            <button class="quickview-nav prev" type="button"><i class="fa-solid fa-chevron-left"></i></button>
+            <img class="quickview-main-img" src="" alt="Produit">
+            <button class="quickview-nav next" type="button"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          <div class="quickview-thumbs"></div>
+        </div>
+        <div class="quickview-info">
+          <h2 class="quickview-title"></h2>
+          <div class="quickview-price"></div>
+          <p class="quickview-description"></p>
+          <button class="btn-ajouter-panier">Ajouter au panier</button>
+          <a class="quickview-link" href="produit.html">Voir la fiche</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <!-- Modal Panier
 
   <!-- Modal Favoris -->
   <div id="favorites-modal" class="modal">

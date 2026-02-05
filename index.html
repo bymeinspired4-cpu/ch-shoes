@@ -32,6 +32,71 @@
       <div class="modal-body">
         <p>Votre panier est vide</p>
       </div>
+      <div class="cart-footer" style="display: none;">
+        <div class="cart-total">
+          <strong>Total: <span id="cart-total-amount">0 FCFA</span></strong>
+        </div>
+        <button class="btn-commander" onclick="openCheckout()">Commander</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Commande -->
+  <div id="checkout-modal" class="modal">
+    <div class="modal-content checkout-content">
+      <span class="close" data-modal="checkout">&times;</span>
+      <h2>Finaliser ma commande</h2>
+      <div class="checkout-body">
+        <div class="checkout-section">
+          <h3>Informations de livraison</h3>
+          <form id="checkout-form">
+            <div class="form-group">
+              <label for="checkout-name">Nom complet *</label>
+              <input type="text" id="checkout-name" required>
+            </div>
+            <div class="form-group">
+              <label for="checkout-phone">Téléphone *</label>
+              <input type="tel" id="checkout-phone" required placeholder="+225 07 XX XX XX XX">
+            </div>
+            <div class="form-group">
+              <label for="checkout-email">Email</label>
+              <input type="email" id="checkout-email" placeholder="votre@email.com">
+            </div>
+            <div class="form-group">
+              <label for="checkout-address">Adresse de livraison *</label>
+              <textarea id="checkout-address" rows="3" required placeholder="Votre adresse complète"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="checkout-city">Ville *</label>
+              <input type="text" id="checkout-city" required>
+            </div>
+            <div class="form-group">
+              <label for="checkout-notes">Instructions de livraison (optionnel)</label>
+              <textarea id="checkout-notes" rows="2" placeholder="Ex: Sonner à l'interphone, 2ème étage..."></textarea>
+            </div>
+          </form>
+        </div>
+        
+        <div class="checkout-section">
+          <h3>Récapitulatif de la commande</h3>
+          <div id="checkout-items"></div>
+          <div class="checkout-total">
+            <div class="total-line">
+              <span>Sous-total:</span>
+              <span id="checkout-subtotal">0 FCFA</span>
+            </div>
+            <div class="total-line">
+              <span>Livraison:</span>
+              <span id="checkout-delivery">Gratuite</span>
+            </div>
+            <div class="total-line total-final">
+              <strong>Total:</strong>
+              <strong id="checkout-total">0 FCFA</strong>
+            </div>
+          </div>
+          <button type="button" class="btn-validate-order" onclick="validateOrder()">Valider la commande</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -175,7 +240,7 @@
       playsinline
       poster=""
     >
-      <source src="0117.mp4" type="video/mp4">
+      <source src="01172.mp4" type="video/mp4">
       Votre navigateur ne supporte pas la balise vidéo.
     </video>
   </div>
@@ -195,7 +260,7 @@
           </div>
         </div>
         <h3>Sandales fermées</h3>
-        <p>35 000 FCFA</p>
+        <p class="produit-detail-price">35 000 FCFA</p>
       </div>
 
       <div class="produit">
@@ -207,7 +272,7 @@
           </div>
         </div>
         <h3>Sandales ouvertes</h3>
-        <p>30 000 FCFA</p>
+        <p class="produit-detail-price">30 000 FCFA</p>
       </div>
 
       <div class="produit horizontal">
@@ -219,7 +284,7 @@
           </div>
         </div>
         <h3>Talons</h3>
-        <p>45 000 FCFA</p>
+        <p class="produit-detail-price">45 000 FCFA</p>
       </div>
 
       <div class="produit">
@@ -231,7 +296,7 @@
           </div>
         </div>
         <h3>Ballerine</h3>
-        <p>25 000 FCFA</p>
+        <p class="produit-detail-price">25 000 FCFA</p>
       </div>
      </div>
    </section>

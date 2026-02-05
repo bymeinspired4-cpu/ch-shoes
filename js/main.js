@@ -5,7 +5,26 @@
  * ============================================
  */
 
+// ========== CONFIGURATION ==========
+const CONFIG = {
+  whatsapp: {
+    phoneNumber: '2250767225913', // Numéro WhatsApp pour les commandes (format international)
+    message: 'Bonjour, je voudrais passer une commande'
+  },
+  delivery: {
+    cost: 0, // Frais de livraison (0 = gratuit)
+    freeThreshold: 0 // Montant minimum pour livraison gratuite
+  }
+};
+
+// ========== INITIALISATION GLOBALE ==========
+// Panier global accessible partout
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
 document.addEventListener('DOMContentLoaded', function() {
+  
+  // ========== INITIALISATION DU PANIER ==========
+  cart = JSON.parse(localStorage.getItem('cart')) || [];
   
   // ========== LOADER AU CHARGEMENT ==========
   /**
@@ -58,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ========== GESTION DES MODALS ==========
   const modalLinks = document.querySelectorAll('[data-modal]');
-  const closeButtons = document.querySelectorAll('.close');
 
   /**
    * Ouvre les modals au clic sur les liens avec data-modal
@@ -75,17 +93,28 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   /**
-   * Ferme les modals au clic sur le bouton de fermeture
+   * Ferme les modals au clic sur le bouton de fermeture - Event Delegation
    */
-  closeButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
+  document.addEventListener('click', function(e) {
+    const closeButton = e.target.closest('.close');
+    if (closeButton) {
       e.preventDefault();
-      const modalId = this.getAttribute('data-modal') + '-modal';
+      e.stopPropagation();
+      const modalId = closeButton.getAttribute('data-modal') + '-modal';
       const modal = document.getElementById(modalId);
       if (modal) {
         modal.classList.remove('active');
       }
-    });
+    }
+  });
+
+  /**
+   * Ferme les modals en cliquant en dehors
+   */
+  window.addEventListener('click', function(e) {
+    if (e.target.classList.contains('modal') && e.target.classList.contains('active')) {
+      e.target.classList.remove('active');
+    }
   });
 
   /**
@@ -410,7 +439,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Gestion du panier
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
   updateCartCount();
   updateCartModal();
 
@@ -423,29 +451,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function updateCartModal() {
     const modalBody = document.querySelector('#cart-modal .modal-body');
+    const cartFooter = document.querySelector('#cart-modal .cart-footer');
+    
     if (modalBody) {
       if (cart.length === 0) {
         modalBody.innerHTML = '<p>Votre panier est vide</p>';
+        if (cartFooter) cartFooter.style.display = 'none';
       } else {
         let html = '<ul style="list-style: none; padding: 0;">';
-        let total = 0;
         cart.forEach((item, index) => {
-          html += `<li style="padding: 10px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
-            <span>${item.name} - ${item.price}</span>
-            <button onclick="removeFromCart(${index})" style="background: #ff6b6b; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </li>`;
-          total += parseFloat(item.price.replace(/[^0-9]/g, ''));
+          const itemImage = item.image || 'image/unnamed.jpg';
+          html += `
+            <li style="padding: 15px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+              <div style="display: flex; gap: 15px; align-items: center; flex: 1;">
+                <img src="${itemImage}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: contain; border-radius: 5px; background: #f5f5f5;" onerror="this.src='image/unnamed.jpg'">
+                <div style="flex: 1;">
+                  <div style="font-weight: 600; margin-bottom: 5px;">${item.name}</div>
+                  <div style="font-size: 14px; color: #666;">
+                    ${item.price} × ${item.quantity || 1}
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <div style="display: flex; gap: 5px; align-items: center;">
+                  <button onclick="decreaseQuantity(${index})" style="background: #f0f0f0; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; font-weight: bold;">-</button>
+                  <span style="min-width: 30px; text-align: center; font-weight: 600;">${item.quantity || 1}</span>
+                  <button onclick="increaseQuantity(${index})" style="background: #f0f0f0; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; font-weight: bold;">+</button>
+                </div>
+                <button onclick="removeFromCart(${index})" style="background: #ff6b6b; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 3px;">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </li>
+          `;
         });
         html += '</ul>';
-        html += `<div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #000; font-weight: bold; font-size: 18px;">
-          Total: ${total.toLocaleString()} FCFA
-        </div>`;
-        html += `<button onclick="checkout()" style="margin-top: 20px; width: 100%; background: #000; color: white; border: none; padding: 15px; cursor: pointer; font-size: 16px;">
-          Commander
-        </button>`;
         modalBody.innerHTML = html;
+        
+        // Afficher le footer avec le total
+        if (cartFooter) {
+          cartFooter.style.display = 'block';
+          updateCartTotal();
+        }
       }
     }
   }
@@ -458,40 +505,107 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCartModal();
   };
 
+  // Augmenter la quantité d'un article
+  window.increaseQuantity = function(index) {
+    if (cart[index]) {
+      cart[index].quantity = (cart[index].quantity || 1) + 1;
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartModal();
+    }
+  };
+
+  // Diminuer la quantité d'un article
+  window.decreaseQuantity = function(index) {
+    if (cart[index]) {
+      if ((cart[index].quantity || 1) > 1) {
+        cart[index].quantity = (cart[index].quantity || 1) - 1;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartModal();
+      } else {
+        // Si la quantité est 1, supprimer l'article
+        removeFromCart(index);
+      }
+    }
+  };
+
+  // Mettre à jour le total du panier
+  function updateCartTotal() {
+    const totalElement = document.getElementById('cart-total-amount');
+    if (totalElement) {
+      let total = 0;
+      cart.forEach(item => {
+        const price = parsePrice(item.price);
+        total += price * (item.quantity || 1);
+      });
+      totalElement.textContent = total.toLocaleString('fr-FR') + ' FCFA';
+    }
+  }
+
   // Fonction globale pour passer commande
   window.checkout = function() {
     alert('Fonction de commande à venir ! Total: ' + cart.length + ' articles');
   };
 
-  // Ajouter au panier depuis n'importe quelle page
-  const addToCartButtons = document.querySelectorAll('.btn-ajouter-panier');
-  addToCartButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      const productContainer = this.closest('.produit-detail-info') || this.closest('.produit');
-      if (productContainer) {
-        const name = productContainer.querySelector('h1, h3')?.textContent || 'Produit';
-        const price = productContainer.querySelector('.produit-detail-price, p')?.textContent || '0 FCFA';
-        
-        const cartItem = {
-          name: name,
-          price: price,
-          id: Date.now()
-        };
-        
-        cart.push(cartItem);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartCount();
-        updateCartModal();
-        
-        // Animation feedback
-        this.textContent = '✓ Ajouté';
-        this.style.background = '#28a745';
-        setTimeout(() => {
-          this.textContent = 'Ajouter au panier';
-          this.style.background = '';
-        }, 2000);
-      }
-    });
+  // Ajouter au panier depuis n'importe quelle page - Event Delegation
+  document.addEventListener('click', function(e) {
+    const button = e.target.closest('.btn-ajouter-panier');
+    if (!button) return;
+    
+    e.preventDefault();
+    let name, price, image;
+    
+    // Cas 1: Page produit.html avec .produit-detail-info
+    const detailInfo = button.closest('.produit-detail-info');
+    if (detailInfo) {
+      name = detailInfo.querySelector('#product-name')?.textContent || detailInfo.querySelector('h1')?.textContent || 'Produit';
+      price = detailInfo.querySelector('#product-price')?.textContent || detailInfo.querySelector('.produit-detail-price')?.textContent || '0 FCFA';
+      const imgElement = document.querySelector('#product-img');
+      image = imgElement?.src || '';
+    } 
+    // Cas 2: Quickview modal
+    else if (button.closest('.quickview-info')) {
+      const quickviewInfo = button.closest('.quickview-info');
+      name = quickviewInfo.querySelector('.quickview-title')?.textContent || 'Produit';
+      price = quickviewInfo.querySelector('.quickview-price')?.textContent || '0 FCFA';
+      const quickviewImg = document.querySelector('.quickview-main-img');
+      image = quickviewImg?.src || '';
+    }
+    // Cas 3: Modal panier (pour les changements de quantité)
+    else {
+      return;
+    }
+    
+    if (!name) return;
+    
+    // Vérifier si le produit existe déjà dans le panier
+    const existingItemIndex = cart.findIndex(item => item.name === name);
+    
+    if (existingItemIndex > -1) {
+      // Augmenter la quantité si le produit existe déjà
+      cart[existingItemIndex].quantity = (cart[existingItemIndex].quantity || 1) + 1;
+    } else {
+      // Ajouter un nouveau produit
+      const cartItem = {
+        name: name,
+        price: price,
+        image: image,
+        quantity: 1,
+        id: Date.now()
+      };
+      cart.push(cartItem);
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    updateCartModal();
+    
+    // Animation feedback
+    button.textContent = '✓ Ajouté';
+    button.style.background = '#28a745';
+    setTimeout(() => {
+      button.textContent = 'Ajouter au panier';
+      button.style.background = '';
+    }, 2000);
   });
 
   // Animation des sections au défilement
@@ -1052,5 +1166,188 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', handleCarouselScroll, { passive: true });
     handleCarouselScroll(); // Initial call
   }
+
+  // ========== SYSTÈME DE COMMANDE ==========
+  /**
+   * Ouvrir la modal de checkout avec le récapitulatif de la commande
+   */
+  window.openCheckout = function() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    if (cart.length === 0) {
+      alert('Votre panier est vide');
+      return;
+    }
+
+    // Fermer la modal du panier
+    document.getElementById('cart-modal').style.display = 'none';
+    
+    // Afficher la modal de checkout
+    document.getElementById('checkout-modal').style.display = 'block';
+    
+    // Remplir le récapitulatif
+    updateCheckoutSummary();
+  };
+
+  /**
+   * Mettre à jour le récapitulatif de la commande
+   */
+  function updateCheckoutSummary() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const checkoutItems = document.getElementById('checkout-items');
+    
+    if (!checkoutItems) return;
+    
+    let html = '<div class="checkout-items-list">';
+    let total = 0;
+    
+    cart.forEach(item => {
+      const price = parsePrice(item.price);
+      const itemTotal = price * item.quantity;
+      total += itemTotal;
+      
+      html += `
+        <div class="checkout-item">
+          <div class="checkout-item-info">
+            <strong>${item.name}</strong>
+            <span>Quantité: ${item.quantity}</span>
+          </div>
+          <div class="checkout-item-price">${itemTotal.toLocaleString('fr-FR')} FCFA</div>
+        </div>
+      `;
+    });
+    
+    html += '</div>';
+    checkoutItems.innerHTML = html;
+    
+    // Mettre à jour les totaux
+    document.getElementById('checkout-subtotal').textContent = total.toLocaleString('fr-FR') + ' FCFA';
+    document.getElementById('checkout-total').textContent = total.toLocaleString('fr-FR') + ' FCFA';
+  }
+
+  /**
+   * Valider la commande
+   */
+  window.validateOrder = function() {
+    const form = document.getElementById('checkout-form');
+    
+    // Vérifier que le formulaire est valide
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    
+    // Récupérer les informations du formulaire
+    const orderData = {
+      customer: {
+        name: document.getElementById('checkout-name').value,
+        phone: document.getElementById('checkout-phone').value,
+        email: document.getElementById('checkout-email').value,
+        address: document.getElementById('checkout-address').value,
+        city: document.getElementById('checkout-city').value,
+        notes: document.getElementById('checkout-notes').value
+      },
+      items: JSON.parse(localStorage.getItem('cart')) || [],
+      total: document.getElementById('checkout-total').textContent,
+      date: new Date().toISOString(),
+      status: 'pending'
+    };
+    
+    // Sauvegarder la commande
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    orders.push(orderData);
+    localStorage.setItem('orders', JSON.stringify(orders));
+    
+    // Créer le message WhatsApp
+    const whatsappMessage = createWhatsAppMessage(orderData);
+    
+    // Vider le panier
+    localStorage.setItem('cart', JSON.stringify([]));
+    updateCartCount();
+    updateCartModal();
+    
+    // Fermer la modal
+    document.getElementById('checkout-modal').style.display = 'none';
+    
+    // Afficher confirmation
+    alert('Commande enregistrée! Vous allez être redirigé vers WhatsApp pour confirmer votre commande.');
+    
+    // Rediriger vers WhatsApp
+    window.open(whatsappMessage, '_blank');
+    
+    // Réinitialiser le formulaire
+    form.reset();
+  };
+
+  /**
+   * Créer le message WhatsApp pour la commande
+   */
+  /**
+   * Créer le message WhatsApp pour la commande
+   */
+  function createWhatsAppMessage(orderData) {
+    const phoneNumber = CONFIG.whatsapp.phoneNumber;
+    
+    let message = `🛍️ *NOUVELLE COMMANDE CH SHOES*\n\n`;
+    message += `👤 *Client:* ${orderData.customer.name}\n`;
+    message += `📱 *Téléphone:* ${orderData.customer.phone}\n`;
+    if (orderData.customer.email) {
+      message += `📧 *Email:* ${orderData.customer.email}\n`;
+    }
+    message += `📍 *Adresse:* ${orderData.customer.address}, ${orderData.customer.city}\n`;
+    if (orderData.customer.notes) {
+      message += `📝 *Instructions:* ${orderData.customer.notes}\n`;
+    }
+    message += `\n🛒 *PRODUITS:*\n`;
+    
+    orderData.items.forEach((item, index) => {
+      const itemPrice = parsePrice(item.price);
+      const itemTotal = itemPrice * (item.quantity || 1);
+      message += `${index + 1}. ${item.name} x${item.quantity || 1} - ${itemTotal.toLocaleString('fr-FR')} FCFA\n`;
+    });
+    
+    message += `\n💰 *TOTAL: ${orderData.total}*`;
+    
+    const encodedMessage = encodeURIComponent(message);
+    return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  }
+
+  /**
+   * Mettre à jour l'affichage du total dans le panier
+   */
+  function updateCartTotal() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartFooter = document.querySelector('.cart-footer');
+    const totalElement = document.getElementById('cart-total-amount');
+    
+    if (cart.length > 0) {
+      let total = 0;
+      cart.forEach(item => {
+        const price = parsePrice(item.price);
+        total += price * item.quantity;
+      });
+      
+      if (totalElement) {
+        totalElement.textContent = total.toLocaleString('fr-FR') + ' FCFA';
+      }
+      
+      if (cartFooter) {
+        cartFooter.style.display = 'block';
+      }
+    } else {
+      if (cartFooter) {
+        cartFooter.style.display = 'none';
+      }
+    }
+  }
+
+  // Mettre à jour le total du panier à chaque fois qu'il change
+  const originalUpdateCartModal = window.updateCartModal;
+  window.updateCartModal = function() {
+    if (originalUpdateCartModal) {
+      originalUpdateCartModal();
+    }
+    updateCartTotal();
+  };
 });
 
