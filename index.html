@@ -18,8 +18,9 @@
     <div class="modal-content">
       <span class="close" data-modal="search">&times;</span>
       <h2>Rechercher un article</h2>
-      <input type="text" placeholder="Entrez votre recherche..." class="search-input">
+      <input type="text" placeholder="Entrez votre recherche..." class="search-input" id="search-input-field">
       <button class="search-btn">Rechercher</button>
+      <div class="modal-body" id="search-results"></div>
     </div>
   </div>
 
@@ -166,14 +167,17 @@
 <section class="videos-carousel">
   <div class="carousel-filter-overlay"></div>
   <div class="youtube-wrapper">
-    <iframe
+    <video
       class="youtube-embed"
-      src="https://www.youtube.com/embed/dVvli-bj5jk?autoplay=1&mute=1&loop=1&playlist=dVvli-bj5jk&controls=1&rel=0&modestbranding=1"
-      title="CH SHOES - Vidéo"
-      frameborder="0"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen
-    ></iframe>
+      autoplay
+      muted
+      loop
+      playsinline
+      poster=""
+    >
+      <source src="0117.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la balise vidéo.
+    </video>
   </div>
 </section>
 
@@ -290,16 +294,10 @@
   <div class="history-card">
     <h3>L'HISTOIRE CH SHOES</h3>
     <p>
-      CH Shoes est née de la volonté de proposer des chaussures
-      alliant élégance, confort et identité africaine.
-    </p>
-    <p>
-      Chaque collection est pensée pour sublimer le quotidien,
-      avec des matières de qualité et un savoir-faire unique.
-    </p>
-    <p>
-      Découvrez nos créations artisanales qui reflètent la richesse
-      et la beauté des traditions africaines, transformées en pièces modernes et intemporelles.
+      « Chouchou » est un mot né entre deux sœurs jumelles, impossible à traduire
+      mais facile à ressentir. Il symbolise l’attachement, la valeur et ce qui
+      compte vraiment. C’est cette émotion, partagée aujourd’hui avec Armel,
+      qui inspire l’âme de Chouchou Shoes.
     </p>
   </div>
 </section>

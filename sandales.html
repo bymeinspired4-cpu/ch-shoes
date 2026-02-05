@@ -16,8 +16,9 @@
     <div class="modal-content">
       <span class="close" data-modal="search">&times;</span>
       <h2>Rechercher un article</h2>
-      <input type="text" placeholder="Entrez votre recherche..." class="search-input">
+      <input type="text" placeholder="Entrez votre recherche..." class="search-input" id="search-input-field">
       <button class="search-btn">Rechercher</button>
+      <div class="modal-body" id="search-results"></div>
     </div>
   </div>
 
@@ -164,7 +165,72 @@
 
 <!-- SECTION PRODUITS -->
 
-       <section class="produits">
+<section class="produits">
+  <!-- HEADER FILTRES ET TRI -->
+  <div class="products-header">
+    <div class="products-count">
+      <span id="product-count">Afficher 1-12 sur 30 résultats</span>
+    </div>
+    <button class="filter-toggle" id="filter-toggle">
+      <i class="fa-solid fa-sliders"></i> Filtre
+    </button>
+    <div class="sort-dropdown">
+      <select id="sort-select">
+        <option value="recent">Tri du plus récent au plus ancien</option>
+        <option value="popularity">Tri par popularité</option>
+        <option value="rating">Tri par notes moyennes</option>
+        <option value="price-asc">Tri par tarif croissant</option>
+        <option value="price-desc">Tri par tarif décroissant</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- PANEL FILTRES LATÉRAL -->
+  <div class="filters-panel" id="filters-panel">
+    <div class="filters-header">
+      <h3>Filtre</h3>
+      <button class="close-filters" id="close-filters">×</button>
+    </div>
+
+    <!-- FILTRE PRIX -->
+    <div class="filter-group">
+      <div class="filter-title" onclick="toggleFilterGroup(this)">
+        <span>Filtre par prix</span>
+        <span class="toggle-icon">−</span>
+      </div>
+      <div class="filter-content">
+        <div class="price-range-slider">
+          <input type="range" class="price-range" id="price-min" min="0" max="50000" value="0" step="1000">
+          <input type="range" class="price-range" id="price-max" min="0" max="50000" value="50000" step="1000">
+        </div>
+        <button class="filter-btn">FILTRER</button>
+        <p class="price-display">PRIX : <span id="price-text">0 CFA — 50 000 CFA</span></p>
+      </div>
+    </div>
+
+    <!-- FILTRE CATÉGORIE -->
+    <div class="filter-group">
+      <div class="filter-title" onclick="toggleFilterGroup(this)">
+        <span>Catégorie</span>
+        <span class="toggle-icon">−</span>
+      </div>
+      <div class="filter-content">
+        <label class="filter-checkbox">
+          <input type="checkbox" class="category-filter" value="sandales">
+          <span>Sandales</span>
+        </label>
+        <label class="filter-checkbox">
+          <input type="checkbox" class="category-filter" value="fermees">
+          <span>Sandales fermées</span>
+        </label>
+        <label class="filter-checkbox">
+          <input type="checkbox" class="category-filter" value="ouvertes">
+          <span>Sandales ouvertes</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
   <div class="produits-grid">
     
     <div class="produit">

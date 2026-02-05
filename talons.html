@@ -16,8 +16,9 @@
     <div class="modal-content">
       <span class="close" data-modal="search">&times;</span>
       <h2>Rechercher un article</h2>
-      <input type="text" placeholder="Entrez votre recherche..." class="search-input">
+      <input type="text" placeholder="Entrez votre recherche..." class="search-input" id="search-input-field">
       <button class="search-btn">Rechercher</button>
+      <div class="modal-body" id="search-results"></div>
     </div>
   </div>
 
@@ -165,6 +166,71 @@
 <!-- SECTION PRODUITS -->
 
 <section class="produits">
+  <!-- HEADER FILTRES ET TRI -->
+  <div class="products-header">
+    <div class="products-count">
+      <span id="product-count">Afficher 1-12 sur 30 résultats</span>
+    </div>
+    <button class="filter-toggle" id="filter-toggle">
+      <i class="fa-solid fa-sliders"></i> Filtre
+    </button>
+    <div class="sort-dropdown">
+      <select id="sort-select">
+        <option value="recent">Tri du plus récent au plus ancien</option>
+        <option value="popularity">Tri par popularité</option>
+        <option value="rating">Tri par notes moyennes</option>
+        <option value="price-asc">Tri par tarif croissant</option>
+        <option value="price-desc">Tri par tarif décroissant</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- PANEL FILTRES LATÉRAL -->
+  <div class="filters-panel" id="filters-panel">
+    <div class="filters-header">
+      <h3>Filtre</h3>
+      <button class="close-filters" id="close-filters">×</button>
+    </div>
+
+    <!-- FILTRE PRIX -->
+    <div class="filter-group">
+      <div class="filter-title" onclick="toggleFilterGroup(this)">
+        <span>Filtre par prix</span>
+        <span class="toggle-icon">−</span>
+      </div>
+      <div class="filter-content">
+        <div class="price-range-slider">
+          <input type="range" class="price-range" id="price-min" min="0" max="50000" value="0" step="1000">
+          <input type="range" class="price-range" id="price-max" min="0" max="50000" value="50000" step="1000">
+        </div>
+        <button class="filter-btn">FILTRER</button>
+        <p class="price-display">PRIX : <span id="price-text">0 CFA — 50 000 CFA</span></p>
+      </div>
+    </div>
+
+    <!-- FILTRE CATÉGORIE -->
+    <div class="filter-group">
+      <div class="filter-title" onclick="toggleFilterGroup(this)">
+        <span>Catégorie</span>
+        <span class="toggle-icon">−</span>
+      </div>
+      <div class="filter-content">
+        <label class="filter-checkbox">
+          <input type="checkbox" class="category-filter" value="talons">
+          <span>Talons</span>
+        </label>
+        <label class="filter-checkbox">
+          <input type="checkbox" class="category-filter" value="mules">
+          <span>Mules</span>
+        </label>
+        <label class="filter-checkbox">
+          <input type="checkbox" class="category-filter" value="escarpins">
+          <span>Escarpins</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
   <div class="produits-grid">   
 
     <div class="produit horizontal">
@@ -231,7 +297,7 @@
       <div class="product-image">
         <img src="image/escarpin orange.jpg" alt="escarpin orange">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=escarpin-orange-strass"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -243,7 +309,7 @@
       <div class="product-image">
         <img src="image/guess gold.jpg" alt="guess gold">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=haute-doree-chic"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -255,7 +321,7 @@
       <div class="product-image">
         <img src="image/blanche perles.jpg" alt="blanche perles">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=crystal-queen-perles"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -267,7 +333,7 @@
       <div class="product-image">
         <img src="image/beige fine.jpg" alt="beige fine">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=steve-madden-nude"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -279,7 +345,7 @@
       <div class="product-image">
         <img src="image/mulelilas.jpg" alt="mule lilas">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=mule-lilas"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -291,7 +357,7 @@
       <div class="product-image">
         <img src="image/mule noire.jpg" alt="mule noire">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=mule-noire-tressees"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -303,7 +369,7 @@
       <div class="product-image">
         <img src="image/escarpin perla.jpg" alt="escarpin perla">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=escarpin-perla-lilas"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -315,7 +381,7 @@
       <div class="product-image">
         <img src="image/aquazzura jaune.jpg" alt="aquazzura jaune">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=aquazzura-jaune"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -327,7 +393,7 @@
       <div class="product-image">
         <img src="image/menthe strass.jpg" alt="menthe strass">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=menthe-strass-noeud"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -339,7 +405,7 @@
       <div class="product-image">
         <img src="image/minimaliste gold.jpg" alt="minimaliste gold">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=minimaliste-gold"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
@@ -351,7 +417,7 @@
       <div class="product-image">
         <img src="image/schutz fuchsia.jpg" alt="schutz fuchsia">
         <div class="product-icons">
-          <a href="#"><i class="fa-regular fa-eye"></i></a>
+          <a href="produit.html?id=schutz-fuchsia"><i class="fa-regular fa-eye"></i></a>
           <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
       </div>
